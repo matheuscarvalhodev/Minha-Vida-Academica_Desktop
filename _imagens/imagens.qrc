@@ -1,0 +1,27 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>icon.ico</file>
+    <file>icon.jpg</file>
+    <file>logo-100-100.jpg</file>
+    <file>logo-normal.jpg</file>
+    <file>logo-ufopa-100x100.png</file>
+    <file>lixeira_branco.png</file>
+    <file>2646111.png</file>
+    <file>dados_branco.png</file>
+    <file>logo-ufopa-100x100.png</file>
+    <file>termometro.png</file>
+    <file>cadeado-preto.png</file>
+    <file>save_branco.png</file>
+    <file>sair_branco.png</file>
+    <file>camera_branca.png</file>
+    <file>logo-ufopa.png</file>
+    <file>logo-ufopa--16x16.png</file>
+    <file>logo-ufopa-32x32.png</file>
+    <file>logo-ufopa-180x180.png</file>
+    <file>logo-ufopa-192x192.png</file>
+    <file>desligar_camera_branca.png</file>
+    <file>logo-ufopa-512x512.png</file>
+    <file>logo-ufopa-icon.ico</file>
+    <file>usuario.png</file>
+  </qresource>
+</RCC>
