@@ -253,7 +253,7 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     sleep(5)
-                                    self.normal()
+                                    normal(self.window)
                                     self.window.CAPA.show()
 
                                 # DA SINAL VERDE CASO O ACESSO SEJA PERMITIDO
@@ -355,23 +355,11 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     sleep(5)
-                                    self.normal()
+                                    normal(self.window)
                                     self.window.CAPA.show()
 
                                 # DA SINAL VERDE CASO O ACESSO SEJA PERMITIDO
                                 elif permissao == "Permitido" and quantidade == 2:
-                                    self.observacao_r.show()
-                                    self.observacao_r.setText(
-                                        "Acesso permitido apenas para\nArea de Convivencia e Banheiro"
-                                    )
-                                    self.observacao_r.setStyleSheet(
-                                        "background-color: rgb(73, 122, 166);\n"
-                                        "color: rgb(255, 255, 255);\n"
-                                        'font: 75 14pt "Arial";\n'
-                                        "padding-top:5px;\n"
-                                        "padding-left: 5px;\n"
-                                        "align: center;"
-                                    )
                                     detalhes(self.window, "73", "122", "166")
                                     self.window.p_dose.setStyleSheet(
                                         "background-color: rgb(73, 122, 166);"
@@ -393,6 +381,72 @@ class sis_qr_code(QMainWindow):
                                     self.window.s_dose_n_r.setStyleSheet(
                                         "background-color: rgb(73, 122, 166);"
                                     )
+                                    self.observacao_r.show()
+                                    self.observacao_r.setText(
+                                        "Acesso permitido apenas para\nArea de Convivencia e Banheiro"
+                                    )
+                                    self.observacao_r.setStyleSheet(
+                                        "background-color: rgb(73, 122, 166);\n"
+                                        "color: rgb(255, 255, 255);\n"
+                                        'font: 75 14pt "Arial";\n'
+                                        "padding-top:5px;\n"
+                                        "padding-left: 5px;\n"
+                                        "align: center;"
+                                    )
+                                    sleep(5)
+                                    try:
+                                        self.window.regi_saida.show()
+                                        self.text_saida.setText(
+                                            f"Registrando entrada de {nome}\nna base de dados"
+                                        )
+                                        self.text_saida.setStyleSheet(
+                                            "background-color: rgb(73, 122, 166);\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            'font: 75 16pt "Arial";\n'
+                                            "padding-top:5px;\n"
+                                            "padding-left: 5px;\n"
+                                            "align: center;"
+                                        )
+                                        dict_dados = {
+                                            "entrada": HORARIO_ATUAL,
+                                            "saida": "00:00:00",
+                                            "temperatura": "NULL",
+                                        }
+                                        enviar_dados(
+                                            util.token, util.matricula, dict_dados
+                                        )
+                                        self.text_saida.setText(
+                                            f"Registrado na hora {HORARIO_ATUAL}"
+                                        )
+                                        self.text_saida.setStyleSheet(
+                                            "background-color: rgb(73, 122, 166);\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            'font: 75 16pt "Arial";\n'
+                                            "padding-top:5px;\n"
+                                            "padding-left: 5px;\n"
+                                            "align: center;"
+                                        )
+                                        sleep(4)
+                                        normal(self.window)
+                                        self.window.regi_saida.close()
+                                        self.window.CAPA.show()
+                                    except:
+                                        self.window.regi_saida.show()
+                                        self.text_saida.setText(
+                                            f"Problema ao registrar a entrada\nContatar o servidor técnico"
+                                        )
+                                        self.text_saida.setStyleSheet(
+                                            "background-color: rgb(73, 122, 166);\n"
+                                            "color: rgb(255, 255, 255);\n"
+                                            'font: 75 16pt "Arial";\n'
+                                            "padding-top:5px;\n"
+                                            "padding-left: 5px;\n"
+                                            "align: center;"
+                                        )
+                                        sleep(5)
+                                        normal(self.window)
+                                        self.window.regi_saida.close()
+                                        self.window.CAPA.show()
 
                         elif resposta == "Positivo":
                             self.window.regi_saida.show()
