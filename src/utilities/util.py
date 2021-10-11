@@ -1,7 +1,7 @@
 from pyzbar import pyzbar
 import cv2
 from src.infra.conexao import solicita_dados
-from datetime import datetime
+from datetime import datetime, date
 from PyQt5.QtCore import QEventLoop, QTimer
 
 token = ""
@@ -18,14 +18,6 @@ matricula = ""
 def Matricula(n_matricula):
     global matricula
     matricula = n_matricula
-
-
-horario = ""
-
-
-def Horario(hora):
-    global horario
-    horario = hora
 
 
 dados = ""
@@ -61,6 +53,7 @@ def read_barcodes(frame):
 
 
 def dados_aluno():
+    print("ENTROU DADOS_ALUNOS")
     with open("barcode_result.txt", mode="r") as file:
         dado = file.readlines()
     dados_qr = dado[0]
@@ -105,6 +98,7 @@ def dados_aluno():
             minute=int(hora_final[1]),
             second=int(hora_final[2]),
         )
+
         return (
             nome_aluno,
             permissao,

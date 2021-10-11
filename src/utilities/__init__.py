@@ -1,1 +1,1 @@
-from .util import Horario, read_barcodes, dados_aluno, sleep
+from .util import read_barcodes, dados_aluno, sleep
