@@ -1,7 +1,7 @@
 from pyzbar import pyzbar
 import cv2
 from src.infra.conexao import solicita_dados
-from datetime import datetime
+from datetime import datetime, date
 from PyQt5.QtCore import QEventLoop, QTimer
 
 token = ""
@@ -20,14 +20,6 @@ def Matricula(n_matricula):
     matricula = n_matricula
 
 
-horario = ""
-
-
-def Horario(hora):
-    global horario
-    horario = hora
-
-
 dados = ""
 
 
@@ -36,12 +28,12 @@ def Dados(data):
     dados = data
 
 
-tipo = ""
+"""tipo = ""
 
 
 def Tipo(tipo_user):
     global tipo
-    tipo = tipo_user
+    tipo = tipo_user"""
 
 
 def read_barcodes(frame):
@@ -61,6 +53,7 @@ def read_barcodes(frame):
 
 
 def dados_aluno():
+    print("ENTROU DADOS_ALUNOS")
     with open("barcode_result.txt", mode="r") as file:
         dado = file.readlines()
     dados_qr = dado[0]
@@ -71,10 +64,12 @@ def dados_aluno():
     permissao = ""
 
     HD = datetime.now()
-    datas, _, area_solicitada, verificacao = solicita_dados(token, n_matricula)
+    datas, _, area_solicitada, tipo_restricao, verificacao = solicita_dados(
+        token, n_matricula
+    )
     Dados(datas)
     if verificacao is False:
-        return "", "", "", "", "", "", "", "", "", verificacao
+        return "", "", "", "", "", "", "", "", "", "", verificacao
     else:
         nome_aluno = dados["nome_aluno"]
         data_solicitacao = dados["data_solicitacao"]
@@ -105,7 +100,9 @@ def dados_aluno():
             minute=int(hora_final[1]),
             second=int(hora_final[2]),
         )
+
         return (
+            tipo_restricao,
             nome_aluno,
             permissao,
             data_solicitacao,
