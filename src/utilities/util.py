@@ -28,12 +28,12 @@ def Dados(data):
     dados = data
 
 
-tipo = ""
+"""tipo = ""
 
 
 def Tipo(tipo_user):
     global tipo
-    tipo = tipo_user
+    tipo = tipo_user"""
 
 
 def read_barcodes(frame):
@@ -64,10 +64,12 @@ def dados_aluno():
     permissao = ""
 
     HD = datetime.now()
-    datas, _, area_solicitada, verificacao = solicita_dados(token, n_matricula)
+    datas, _, area_solicitada, tipo_restricao, verificacao = solicita_dados(
+        token, n_matricula
+    )
     Dados(datas)
     if verificacao is False:
-        return "", "", "", "", "", "", "", "", "", verificacao
+        return "", "", "", "", "", "", "", "", "", "", verificacao
     else:
         nome_aluno = dados["nome_aluno"]
         data_solicitacao = dados["data_solicitacao"]
@@ -100,6 +102,7 @@ def dados_aluno():
         )
 
         return (
+            tipo_restricao,
             nome_aluno,
             permissao,
             data_solicitacao,

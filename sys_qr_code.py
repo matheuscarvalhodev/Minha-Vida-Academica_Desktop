@@ -95,7 +95,7 @@ class sis_qr_code(QMainWindow):
                 displayImage(self.window, frame, 1)
                 cv2.waitKey(0)
                 if ok is True:
-                    abertura = 0
+                    print("AQUI 1")
                     self.window.regi_saida.show()
                     self.text_saida.setText("Verificando registro...")
                     self.text_saida.setStyleSheet(
@@ -108,6 +108,7 @@ class sis_qr_code(QMainWindow):
                     )
                     sleep(1)
                     (
+                        abertura,
                         nome_aluno,
                         permissao,
                         data_solicitacao,
@@ -119,7 +120,9 @@ class sis_qr_code(QMainWindow):
                         hora_fim,
                         verificacao,
                     ) = dados_aluno()
+
                     if verificacao is False:
+                        print("AQUI 2")
                         self.window.regi_saida.show()
                         self.text_saida.setText(
                             "Aluno não possui\nsolicitação registrada\nPor favor, entrar em contato\ncom o técnico"
@@ -136,10 +139,15 @@ class sis_qr_code(QMainWindow):
                         self.window.regi_saida.close()
 
                     else:
+                        print("AQUI 3")
                         resposta, nome, h_saida = ponto(util.matricula, util.token)
                         quantidade = verifica_vacinacao(util.token, util.matricula)
+                        print("quantidade ", quantidade)
+                        print("resposta ", resposta)
                         if resposta == "Negativo":
+                            print("AQUI 4")
                             if abertura == 1 or abertura == 2:
+                                print("AQUI 5")
                                 self.window.regi_saida.close()
                                 self.window.CAPA.close()
                                 self.window.campus_all.show()
@@ -280,6 +288,7 @@ class sis_qr_code(QMainWindow):
                                     )
 
                             elif abertura == 0:
+                                print("AQUI 6")
                                 self.window.afirmar.show()
                                 self.window.negar.show()
                                 self.window.regi_saida.close()

@@ -52,16 +52,17 @@ def solicita_dados(token: str = None, n_matricula: str = None):
         dados["hora_ini"] = data["hora_inicio"]
         dados["hora_fim"] = data["hora_fim"]
         dados["status_acesso"] = data["status_acesso"]
-        return dados, id_solicitacao, area_solicitada, verificacao
+        tipo_restricao = data["tipo_restricao"]
+        return dados, id_solicitacao, area_solicitada, tipo_restricao, verificacao
     else:
-        return "", "", "", verificacao
+        return "", "", "", "", verificacao
 
 
 def enviar_dados(token: str = None, n_matricula: str = None, dicio: object = None):
     entrada = dicio["entrada"]
     saida = dicio["saida"]
     temperatura = dicio["temperatura"]
-    _, id_solicitacao, _, _ = solicita_dados(token, n_matricula)
+    _, id_solicitacao, _, _, _ = solicita_dados(token, n_matricula)
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
     r = requests.get(url + "/acessos_permitidos", headers=headers)
     lista = r.json()
@@ -84,7 +85,7 @@ def enviar_dados(token: str = None, n_matricula: str = None, dicio: object = Non
 
 def ponto(matricula: str = None, token: str = None):
 
-    dados, id_solicitacao, _, _ = solicita_dados(token, matricula)
+    dados, id_solicitacao, _, _, _ = solicita_dados(token, matricula)
     nome_usuario = dados["nome_aluno"]
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
     r = requests.get(url + "/acessos_permitidos", headers=headers)
@@ -127,9 +128,10 @@ def verifica_vacinacao(token: str = None, matricula: str = None):
     return quantidade
 
 
+"""
 def verifica_tipo(token: str = None):
     headers = {"Authorization": f"Bearer {token}"}
     r = requests.get(url + f"/usuarios/usuario", headers=headers)
     lista = r.json()
     tipo = lista["tipo"]
-    return tipo
+    return tipo"""

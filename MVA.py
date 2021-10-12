@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
-from src.utilities.util import Token, Tipo
-from src.infra.conexao import login, verifica_tipo
+from src.utilities.util import Token
+from src.infra.conexao import login
 from PyQt5.QtCore import QEventLoop, QTimer
 import sys_qr_code
 from PyQt5.uic import loadUi
@@ -27,9 +27,8 @@ def tela_cam():
     token, res = login(usuario, senha)
     if res == "valido":
         Token(token)
-        tipo = verifica_tipo(token)
-        Tipo(tipo)
-        print(tipo)
+        # tipo = verifica_tipo(token)
+        # Tipo(tipo)
         tela_login.hide()
         tela_login.usuario.clear()
         tela_login.senha.clear()
