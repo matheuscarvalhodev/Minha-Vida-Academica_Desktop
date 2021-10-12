@@ -26,7 +26,6 @@ class sis_qr_code(QMainWindow):
     HORARIO_ATUAL = HD.strftime("%H:%M:%S")
     today = date.today()
     DATA = today.strftime("%d/%m/%Y")
-    print(DATA)
 
     def __init__(self):
 
@@ -46,6 +45,7 @@ class sis_qr_code(QMainWindow):
         self.negar.clicked.connect(self.nao_autorizar)
         # BOTÃO DE ENVIAR TEMPERATURA
         self.enviar_temp.clicked.connect(self.salvar_temp)
+        self.confirmar.clicked.connect(self.permitir)
         # BOTÕES DE ENVIAR OU NAO TEMPERATURA
         self.sim.clicked.connect(self.opcao_sim)
         self.nao.clicked.connect(self.opcao_nao)
@@ -95,8 +95,7 @@ class sis_qr_code(QMainWindow):
                 displayImage(self.window, frame, 1)
                 cv2.waitKey(0)
                 if ok is True:
-                    print("AQUI")
-                    abertura = 2
+                    abertura = 0
                     self.window.regi_saida.show()
                     self.text_saida.setText("Verificando registro...")
                     self.text_saida.setStyleSheet(
@@ -120,7 +119,6 @@ class sis_qr_code(QMainWindow):
                         hora_fim,
                         verificacao,
                     ) = dados_aluno()
-                    print("VERIFICACAO ", verificacao)
                     if verificacao is False:
                         self.window.regi_saida.show()
                         self.text_saida.setText(
@@ -140,7 +138,6 @@ class sis_qr_code(QMainWindow):
                     else:
                         resposta, nome, h_saida = ponto(util.matricula, util.token)
                         quantidade = verifica_vacinacao(util.token, util.matricula)
-                        print(resposta)
                         if resposta == "Negativo":
                             if abertura == 1 or abertura == 2:
                                 self.window.regi_saida.close()
@@ -292,9 +289,6 @@ class sis_qr_code(QMainWindow):
                                 if quantidade < 2:
                                     permissao = "Negado"
 
-                                else:
-                                    self.window.observacao.close()
-
                                 self.nome_aluno_r.setText(nome_aluno)
                                 self.matricula_r.setText(
                                     "Matricula: %s" % util.matricula
@@ -393,60 +387,6 @@ class sis_qr_code(QMainWindow):
                                         "padding-left: 5px;\n"
                                         "align: center;"
                                     )
-                                    sleep(5)
-                                    try:
-                                        self.window.regi_saida.show()
-                                        self.text_saida.setText(
-                                            f"Registrando entrada de {nome}\nna base de dados"
-                                        )
-                                        self.text_saida.setStyleSheet(
-                                            "background-color: rgb(73, 122, 166);\n"
-                                            "color: rgb(255, 255, 255);\n"
-                                            'font: 75 16pt "Arial";\n'
-                                            "padding-top:5px;\n"
-                                            "padding-left: 5px;\n"
-                                            "align: center;"
-                                        )
-                                        dict_dados = {
-                                            "entrada": HORARIO_ATUAL,
-                                            "saida": "00:00:00",
-                                            "temperatura": "NULL",
-                                        }
-                                        enviar_dados(
-                                            util.token, util.matricula, dict_dados
-                                        )
-                                        self.text_saida.setText(
-                                            f"Registrado na hora {HORARIO_ATUAL}"
-                                        )
-                                        self.text_saida.setStyleSheet(
-                                            "background-color: rgb(73, 122, 166);\n"
-                                            "color: rgb(255, 255, 255);\n"
-                                            'font: 75 16pt "Arial";\n'
-                                            "padding-top:5px;\n"
-                                            "padding-left: 5px;\n"
-                                            "align: center;"
-                                        )
-                                        sleep(4)
-                                        normal(self.window)
-                                        self.window.regi_saida.close()
-                                        self.window.CAPA.show()
-                                    except:
-                                        self.window.regi_saida.show()
-                                        self.text_saida.setText(
-                                            f"Problema ao registrar a entrada\nContatar o servidor técnico"
-                                        )
-                                        self.text_saida.setStyleSheet(
-                                            "background-color: rgb(73, 122, 166);\n"
-                                            "color: rgb(255, 255, 255);\n"
-                                            'font: 75 16pt "Arial";\n'
-                                            "padding-top:5px;\n"
-                                            "padding-left: 5px;\n"
-                                            "align: center;"
-                                        )
-                                        sleep(5)
-                                        normal(self.window)
-                                        self.window.regi_saida.close()
-                                        self.window.CAPA.show()
 
                         elif resposta == "Positivo":
                             self.window.regi_saida.show()
@@ -569,6 +509,41 @@ class sis_qr_code(QMainWindow):
         self.window.fechar_confirma.close()
         self.window.fechar_negar.close()
         self.window.CAPA.show()
+
+    def permitir(self):
+        try:
+            self.opcao_nao()
+            self.window.regi_saida.show()
+            self.text_saida.setText("Entrada foi registrada\nna base de dados")
+            self.text_saida.setStyleSheet(
+                "background-color: rgb(73, 122, 166);\n"
+                "color: rgb(255, 255, 255);\n"
+                'font: 75 16pt "Arial";\n'
+                "padding-top:5px;\n"
+                "padding-left: 5px;\n"
+                "align: center;"
+            )
+            sleep(3)
+            normal(self.window)
+            self.window.regi_saida.close()
+            self.window.CAPA.show()
+        except:
+            self.window.regi_saida.show()
+            self.text_saida.setText(
+                f"Problema ao registrar a entrada\nContatar o servidor técnico"
+            )
+            self.text_saida.setStyleSheet(
+                "background-color: rgb(73, 122, 166);\n"
+                "color: rgb(255, 255, 255);\n"
+                'font: 75 16pt "Arial";\n'
+                "padding-top:5px;\n"
+                "padding-left: 5px;\n"
+                "align: center;"
+            )
+            sleep(3)
+            normal(self.window)
+            self.window.regi_saida.close()
+            self.window.CAPA.show()
 
     def opcao_sim(self):
         self.window.temp.show()

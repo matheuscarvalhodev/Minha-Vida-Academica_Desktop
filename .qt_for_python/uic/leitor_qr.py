@@ -506,7 +506,7 @@ class Ui_MainWindow(object):
         )
         self.data_r.setObjectName("data_r")
         self.label_6 = QtWidgets.QLabel(self.campus_restricao)
-        self.label_6.setGeometry(QtCore.QRect(150, 540, 220, 40))
+        self.label_6.setGeometry(QtCore.QRect(247, 543, 220, 40))
         self.label_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_6.setObjectName("label_6")
         self.observacao_r = QtWidgets.QLabel(self.campus_restricao)
@@ -523,7 +523,7 @@ class Ui_MainWindow(object):
         self.observacao_r.setAlignment(QtCore.Qt.AlignCenter)
         self.observacao_r.setObjectName("observacao_r")
         self.s_dose = QtWidgets.QFrame(self.campus_restricao)
-        self.s_dose.setGeometry(QtCore.QRect(280, 590, 101, 71))
+        self.s_dose.setGeometry(QtCore.QRect(370, 590, 101, 71))
         self.s_dose.setStyleSheet(
             "QFrame#s_dose{\n" "border: 2px solid black;\n" "}\n" "\n" ""
         )
@@ -542,7 +542,7 @@ class Ui_MainWindow(object):
         self.s_dose_n_r.setAlignment(QtCore.Qt.AlignCenter)
         self.s_dose_n_r.setObjectName("s_dose_n_r")
         self.p_dose = QtWidgets.QFrame(self.campus_restricao)
-        self.p_dose.setGeometry(QtCore.QRect(160, 590, 101, 71))
+        self.p_dose.setGeometry(QtCore.QRect(240, 590, 101, 71))
         self.p_dose.setStyleSheet(
             "QFrame#p_dose{\n" "border: 2px solid black;\n" "}\n" "\n" ""
         )
@@ -560,6 +560,33 @@ class Ui_MainWindow(object):
         self.p_dose_n_r.setStyleSheet("")
         self.p_dose_n_r.setAlignment(QtCore.Qt.AlignCenter)
         self.p_dose_n_r.setObjectName("p_dose_n_r")
+        self.confirmar = QtWidgets.QPushButton(self.campus_restricao)
+        self.confirmar.setGeometry(QtCore.QRect(63, 587, 131, 71))
+        self.confirmar.setStyleSheet(
+            ".QPushButton#confirmar {\n"
+            "    color: white;\n"
+            "    text-align: center;\n"
+            "    text-decoration: none;\n"
+            "    display: inline-block;\n"
+            "    font-size: 20px;\n"
+            "    margin: 4px 2px;\n"
+            "    cursor: pointer;\n"
+            "    background-color: white; \n"
+            "    color: #4CAF50; \n"
+            "    border: 2px solid #4CAF50;\n"
+            "}\n"
+            "\n"
+            ".QPushButton#confirmar:hover:pressed {\n"
+            "    background-color: #4CAF50;\n"
+            "    color: white;\n"
+            "    border-top-color: rgb(255, 255, 255);\n"
+            "    border-right-color: rgb(0,0,0);\n"
+            "    border-bottom-color: rgb(0,0,0);\n"
+            "    border-left-color: rgb(255, 255, 255);\n"
+            "}\n"
+            ""
+        )
+        self.confirmar.setObjectName("confirmar")
         self.temp = QtWidgets.QFrame(self.frame_6)
         self.temp.setGeometry(QtCore.QRect(130, 210, 301, 241))
         self.temp.setStyleSheet(
@@ -805,6 +832,7 @@ class Ui_MainWindow(object):
                 '<html><head/><body><p><span style=" font-size:14pt;">1ª</span></p></body></html>',
             )
         )
+        self.confirmar.setText(_translate("MainWindow", "Confirmar"))
         self.temperatura.setInputMask(_translate("MainWindow", "99.99"))
         self.aviso_2.setText(_translate("MainWindow", "Insira a temperatura"))
         self.enviar_temp.setText(_translate("MainWindow", "ENVIAR"))
