@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['MVA.py'],
-             pathex=['C:\\Users\\Matheus\\Documents\\GitHub\\QR_Ufopa'],
+             pathex=['C:\\Users\\Matheus\\Documents\\GitHub\\Minha-Vida-Academica_Desktop'],
              binaries=[],
              datas=[('libiconv.dll', '.'),('libzbar-64.dll', '.'),('leitor_qr.ui', '.'),('login.ui', '.')],
              hiddenimports=[],

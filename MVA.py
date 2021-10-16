@@ -1,13 +1,13 @@
 from PyQt5 import QtWidgets
-from src.utilities.util import Token
-from src.infra.conexao import login
+from util import Token
+from conexao import login
 from PyQt5.QtCore import QEventLoop, QTimer
 import sys_qr_code
 from PyQt5.uic import loadUi
 import sys
 
 app = QtWidgets.QApplication(sys.argv)
-tela_login = loadUi("src/design/login.ui")
+tela_login = loadUi("_design/login.ui")
 
 # FUNÇÃO QUE CHAMA A CLASSE DE LEITURA DE QR_CODE
 
@@ -52,14 +52,16 @@ def tela_cam():
 def confirma(cond):
     if cond is True:
         tela_login.enviar.clicked.connect(tela_cam)
-        tela_login.show()
+        # tela_login.show()
+        tela_login.showMaximized()
     else:
-        print("Não deu")
+        pass
 
 
 if __name__ == "__main__":
     tela_login.enviar.clicked.connect(tela_cam)
     tela_login.show()
+    tela_login.showMaximized()
     try:
         sys.exit(app.exec_())
     except:
