@@ -643,9 +643,11 @@ class sis_qr_code(QMainWindow):
             self.window.CAPA.show()
 
         except:
-            self.window.aviso_2.setText("Dados não conferem")
+            self.window.aviso_2.setText(
+                "Problema ao cadastrar registro\nPor favor, avisar ao técnico"
+            )
             self.window.aviso_1.setText("")
-            sleep(1)
+            sleep(3)
             self.window.aviso_2.setText("Insira a temperatura")
             self.window.aviso_1.setText("Apenas Números")
             self.window.temp.close()

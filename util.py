@@ -67,6 +67,7 @@ def dados_aluno():
     datas, _, area_solicitada, tipo_restricao, verificacao = solicita_dados(
         token, n_matricula
     )
+    print(tipo_restricao)
     Dados(datas)
     if verificacao is False:
         return "", "", "", "", "", "", "", "", "", "", verificacao

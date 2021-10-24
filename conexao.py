@@ -51,6 +51,12 @@ def solicita_dados(token: str = None, n_matricula: str = None):
         dados["matricula"] = data["matricula"]
         dados["para_si"] = data["para_si"]
         dados["data_solicitacao"] = data["data"]
+        dados["campus_instituto_id_campus_instituto"] = data[
+            "campus_instituto_id_campus_instituto"
+        ]
+        dados["recurso_campus_id_recurso_campus"] = data[
+            "recurso_campus_id_recurso_campus"
+        ]
         dados["hora_ini"] = data["hora_inicio"]
         dados["hora_fim"] = data["hora_fim"]
         dados["status_acesso"] = data["status_acesso"]
@@ -64,18 +70,22 @@ def enviar_dados(token: str = None, n_matricula: str = None, dicio: object = Non
     entrada = dicio["entrada"]
     saida = dicio["saida"]
     temperatura = dicio["temperatura"]
-    _, id_solicitacao, _, _, _ = solicita_dados(token, n_matricula)
+    dt, id_solicitacao, _, _, _ = solicita_dados(token, n_matricula)
+    id_campus = dt["campus_instituto_id_campus_instituto"]
+    id_recurso = (dt["recurso_campus_id_recurso_campus"],)
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
     r = requests.get(url + "/acessos_permitidos", headers=headers)
     lista = r.json()
     id_acesso = lista[len(lista) - 1]["id_acesso_permitido"]
     id_acesso += 1
     dict_dados = {
-        "id_acesso_permitido": id_acesso,
         "hora_entrada": entrada,
         "hora_saida": saida,
+        "matricula_discente": n_matricula,
         "temperatura": temperatura,
         "solicitacao_acesso_id_solicitacao_acesso": id_solicitacao,
+        "recurso_campus_id_recurso_campus": id_recurso,
+        "campus_instituto_id_campus_instituto": id_campus,
     }
     r = requests.post(
         url + "/acessos_permitidos/acesso_permitido",
