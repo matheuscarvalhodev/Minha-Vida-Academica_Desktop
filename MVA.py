@@ -7,7 +7,7 @@ from PyQt5.uic import loadUi
 import sys
 
 app = QtWidgets.QApplication(sys.argv)
-tela_login = loadUi("_design/login.ui")
+tela_login = loadUi("login.ui")
 
 # FUNÇÃO QUE CHAMA A CLASSE DE LEITURA DE QR_CODE
 

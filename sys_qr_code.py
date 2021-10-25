@@ -30,7 +30,7 @@ class sis_qr_code(QMainWindow):
     def __init__(self):
 
         super(sis_qr_code, self).__init__()
-        self.window = loadUi("_design/leitor_qr.ui", self)
+        self.window = loadUi("leitor_qr.ui", self)
         self.logic = 0
         self.value = 0
         # BOTÃO QUE ABRE A CÂMERA
@@ -164,11 +164,13 @@ class sis_qr_code(QMainWindow):
                                     if quantidade == 2:
                                         permissao = "Permitido"
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         permissao = "Permitido"
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         permissao = "Negado"
                                     elif quantidade == 0:
@@ -241,7 +243,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         self.window.p_dose_all.setStyleSheet(
                                             "background-color: rgb(157, 157, 157);"
@@ -308,7 +311,8 @@ class sis_qr_code(QMainWindow):
                                             "background-color: rgb(73, 122, 166);"
                                         )
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         self.window.p_dose_all.setStyleSheet(
                                             "background-color: rgb(73, 122, 166);"
@@ -333,11 +337,13 @@ class sis_qr_code(QMainWindow):
                                     if quantidade == 2:
                                         permissao = "Permitido"
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         permissao = "Permitido"
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         permissao = "Negado"
                                     elif quantidade == 0:
@@ -392,7 +398,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         self.window.p_dose.setStyleSheet(
                                             "background-color: rgb(157, 157, 157);"
@@ -449,7 +456,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         self.window.p_dose.setStyleSheet(
                                             "background-color: rgb(73, 122, 166);"
