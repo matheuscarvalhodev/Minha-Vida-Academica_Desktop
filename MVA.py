@@ -25,24 +25,23 @@ def tela_cam():
     sys_qr_code.USER = usuario
     senha = tela_login.senha.text()
     token, res = login(usuario, senha)
-    if res == "valido":
+    if res:
         Token(token)
         # tipo = verifica_tipo(token)
         # Tipo(tipo)
         tela_login.hide()
         tela_login.usuario.clear()
         tela_login.senha.clear()
+
         main()
-    elif res == "invalido":
+    elif res is False:
         tela_login.aviso.setText("Usuário ou senha incorretos")
         loop = QEventLoop()
         QTimer.singleShot(3000, loop.quit)
         loop.exec_()
         tela_login.aviso.setText("")
-    elif res == "nao conectou":
-        tela_login.aviso.setText(
-            "Não é possivel se conectar\nVerifique a conexão com a internet"
-        )
+    elif res is not True and res is not False:
+        tela_login.aviso.setText(res)
         loop = QEventLoop()
         QTimer.singleShot(3000, loop.quit)
         loop.exec_()

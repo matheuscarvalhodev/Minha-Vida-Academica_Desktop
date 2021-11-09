@@ -53,7 +53,7 @@ def read_barcodes(frame):
 
 
 def dados_aluno():
-    print("ENTROU DADOS_ALUNOS")
+    print("entrou aqui")
     with open("barcode_result.txt", mode="r") as file:
         dado = file.readlines()
     dados_qr = dado[0]
@@ -67,11 +67,12 @@ def dados_aluno():
     datas, _, area_solicitada, tipo_restricao, verificacao = solicita_dados(
         token, n_matricula
     )
-    print(tipo_restricao)
     Dados(datas)
     if verificacao is False:
+        print("False")
         return "", "", "", "", "", "", "", "", "", "", verificacao
-    else:
+    elif verificacao is True:
+        print("True")
         nome_aluno = dados["nome_aluno"]
         data_solicitacao = dados["data_solicitacao"]
         hora_ini = dados["hora_ini"]
