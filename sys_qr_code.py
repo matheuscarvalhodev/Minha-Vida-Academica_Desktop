@@ -30,7 +30,7 @@ class sis_qr_code(QMainWindow):
     def __init__(self):
 
         super(sis_qr_code, self).__init__()
-        self.window = loadUi("_design/leitor_qr.ui", self)
+        self.window = loadUi("leitor_qr.ui", self)
         self.logic = 0
         self.value = 0
         # BOTÃO QUE ABRE A CÂMERA
@@ -95,7 +95,6 @@ class sis_qr_code(QMainWindow):
                 displayImage(self.window, frame, 1)
                 cv2.waitKey(0)
                 if ok is True:
-
                     self.window.regi_saida.show()
                     self.text_saida.setText("Verificando registro...")
                     self.text_saida.setStyleSheet(
@@ -138,17 +137,37 @@ class sis_qr_code(QMainWindow):
                         sleep(7)
                         self.window.regi_saida.close()
 
-                    else:
-                        resposta, nome, h_saida = ponto(util.matricula, util.token)
-                        quantidade, fabricante = verifica_vacinacao(
+                    elif verificacao is True:
+                        resposta, h_saida = ponto(util.matricula, util.token)
+                        quantidade, fabricante, error = verifica_vacinacao(
                             util.token, util.matricula
                         )
-                        print("quantidade ", quantidade)
-                        print("resposta ", resposta)
-                        if resposta == "Negativo":
+                        if "astrazeneca" in fabricante.lower:
+                            fabricante = "astrazeneca"
+                        if error is True:
+                            pass
+                        else:
 
+                            self.window.regi_saida.show()
+                            self.text_saida.setText(error)
+                            self.text_saida.setStyleSheet(
+                                "background-color: rgb(73, 122, 166);\n"
+                                "color: rgb(255, 255, 255);\n"
+                                'font: 75 14pt "Arial";\n'
+                                "padding-top:5px;\n"
+                                "padding-left: 5px;\n"
+                                "align: center;"
+                            )
+                            sleep(3)
+                            self.cap.release()
+                            self.window.imgLabel.close()
+                            self.window.fechar_camera.close()
+                            self.window.abrir_camera.show()
+                            self.logic = 0
+                            self.window.CAPA.show()
+
+                        if resposta is False:
                             if abertura == 1 or abertura == 2:
-
                                 self.window.regi_saida.close()
                                 self.window.CAPA.close()
                                 self.window.campus_restricao.close()
@@ -158,24 +177,22 @@ class sis_qr_code(QMainWindow):
                                     or HD > hora_comparacao_fim
                                     or data_solicitacao != DATA
                                 ):
+
                                     permissao = "Negado"
 
                                 elif quantidade <= 2:
-                                    if quantidade == 2:
-                                        permissao = "Permitido"
-                                    elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
-                                    ):
-                                        permissao = "Permitido"
-                                    elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
-                                    ):
-                                        permissao = "Negado"
-                                    elif quantidade == 0:
-                                        permissao = "Negado"
 
-                                else:
-                                    self.window.observacao.close()
+                                    if (quantidade == 2) or (
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
+                                    ):
+                                        permissao = "Permitido"
+
+                                    elif (
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
+                                    ) or (quantidade == 0):
+                                        permissao = "Negado"
 
                                 self.nome_aluno.setText(nome_aluno)
                                 self.matricula.setText("Matricula: %s" % util.matricula)
@@ -188,6 +205,7 @@ class sis_qr_code(QMainWindow):
                                 self.data.setText("Data: %s" % data_solicitacao)
                                 # DA SINAL VERMELHO CASO O ACESSO SEJA PERMITIDO
                                 if permissao == "Negado":
+
                                     detalhes(self.window, "255", "0", "0")
                                     self.window.afirmar.close()
                                     self.window.negar.close()
@@ -219,6 +237,7 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     if quantidade == 0:
+
                                         self.window.p_dose_all.setStyleSheet(
                                             "background-color: rgb(157, 157, 157);"
                                         )
@@ -241,7 +260,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         self.window.p_dose_all.setStyleSheet(
                                             "background-color: rgb(157, 157, 157);"
@@ -308,7 +328,8 @@ class sis_qr_code(QMainWindow):
                                             "background-color: rgb(73, 122, 166);"
                                         )
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         self.window.p_dose_all.setStyleSheet(
                                             "background-color: rgb(73, 122, 166);"
@@ -330,17 +351,16 @@ class sis_qr_code(QMainWindow):
                                 self.window.campus_restricao.show()
                                 # data = DATA
                                 if quantidade <= 2:
-                                    if quantidade == 2:
-                                        permissao = "Permitido"
-                                    elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                    if (quantidade == 2) or (
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         permissao = "Permitido"
+
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
-                                    ):
-                                        permissao = "Negado"
-                                    elif quantidade == 0:
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
+                                    ) or (quantidade == 0):
                                         permissao = "Negado"
 
                                 self.nome_aluno_r.setText(nome_aluno)
@@ -392,7 +412,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante != "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() != "astrazeneca"
                                     ):
                                         self.window.p_dose.setStyleSheet(
                                             "background-color: rgb(157, 157, 157);"
@@ -449,7 +470,8 @@ class sis_qr_code(QMainWindow):
                                         )
 
                                     elif (
-                                        quantidade == 1 and fabricante == "astrazeneca"
+                                        quantidade == 1
+                                        and fabricante.lower() == "astrazeneca"
                                     ):
                                         self.window.p_dose.setStyleSheet(
                                             "background-color: rgb(73, 122, 166);"
@@ -462,11 +484,22 @@ class sis_qr_code(QMainWindow):
                                             "background-color: rgb(73, 122, 166);"
                                         )
 
-                        elif resposta == "Positivo":
+                        elif resposta is True:
                             self.window.regi_saida.show()
-                            self.text_saida.setText(
-                                f"{nome}\nRegistrando Horário de Saída\nàs {h_saida}"
+                            self.text_saida.setText(f"Registrando saída\nàs {h_saida}")
+                            self.text_saida.setStyleSheet(
+                                "background-color: rgb(73, 122, 166);\n"
+                                "color: rgb(255, 255, 255);\n"
+                                'font: 75 14pt "Arial";\n'
+                                "padding-top:5px;\n"
+                                "padding-left: 5px;\n"
+                                "align: center;"
                             )
+                            sleep(3)
+                            self.window.regi_saida.close()
+                        elif resposta is not True and resposta is not False:
+                            self.window.regi_saida.show()
+                            self.text_saida.setText(resposta)
                             self.text_saida.setStyleSheet(
                                 "background-color: rgb(73, 122, 166);\n"
                                 "color: rgb(255, 255, 255);\n"
@@ -478,6 +511,19 @@ class sis_qr_code(QMainWindow):
                             sleep(3)
                             self.window.regi_saida.close()
 
+                    elif verificacao is not False and verificacao is not True:
+                        self.window.regi_saida.show()
+                        self.text_saida.setText(verificacao)
+                        self.text_saida.setStyleSheet(
+                            "background-color: rgb(73, 122, 166);\n"
+                            "color: rgb(255, 255, 255);\n"
+                            'font: 75 16pt "Arial";\n'
+                            "padding-top:5px;\n"
+                            "padding-left: 5px;\n"
+                            "align: center;"
+                        )
+                        sleep(7)
+                        self.window.regi_saida.close()
                     # VERIFICA A HORA E O DIA ATUAL DO SISTEMA E COMPARA COM A HORA DE CHEGADA DO ALUNO E O DIA SOLICITADO
                     # CASO O ALUNO ESTEJA FORA DO HORÁRIO OU DO DIA RESERVADO, O ACESSO SERÁ NEGADO
 
@@ -500,9 +546,7 @@ class sis_qr_code(QMainWindow):
                     self.window.CAPA.show()
         except:
             self.window.regi_saida.show()
-            self.text_saida.setText(
-                "Problemas técnicos no sistema\nPor favor, contatar o técnico"
-            )
+            self.text_saida.setText("Ocorreu um erro\nPor favor, contatar o técnico")
             self.text_saida.setStyleSheet(
                 "background-color: rgb(73, 122, 166);\n"
                 "color: rgb(255, 255, 255);\n"
@@ -579,7 +623,19 @@ class sis_qr_code(QMainWindow):
         normal(self.window)
         hora_ini = HORARIO_ATUAL
         dict_dados = {"entrada": hora_ini, "saida": "00:00:00", "temperatura": "NULL"}
-        enviar_dados(util.token, util.matricula, dict_dados)
+        response = enviar_dados(util.token, util.matricula, dict_dados)
+        self.window.regi_saida.show()
+        self.text_saida.setText(response)
+        self.text_saida.setStyleSheet(
+            "background-color: rgb(73, 122, 166);\n"
+            "color: rgb(255, 255, 255);\n"
+            'font: 75 16pt "Arial";\n'
+            "padding-top:5px;\n"
+            "padding-left: 5px;\n"
+            "align: center;"
+        )
+        sleep(7)
+        self.window.regi_saida.close()
         self.window.fechar_confirma.close()
         self.window.fechar_negar.close()
         self.window.CAPA.show()
@@ -632,7 +688,19 @@ class sis_qr_code(QMainWindow):
                 "saida": "00:00:00",
                 "temperatura": float(temperatura),
             }
-            enviar_dados(util.token, util.matricula, dict_dados)
+            response = enviar_dados(util.token, util.matricula, dict_dados)
+            self.window.regi_saida.show()
+            self.text_saida.setText(response)
+            self.text_saida.setStyleSheet(
+                "background-color: rgb(73, 122, 166);\n"
+                "color: rgb(255, 255, 255);\n"
+                'font: 75 16pt "Arial";\n'
+                "padding-top:5px;\n"
+                "padding-left: 5px;\n"
+                "align: center;"
+            )
+            sleep(4)
+            self.window.regi_saida.close()
             self.window.aviso_2.setText("Insira a temperatura")
             self.window.aviso_1.setText("Apenas Números")
             self.window.temp.close()
@@ -643,9 +711,9 @@ class sis_qr_code(QMainWindow):
             self.window.CAPA.show()
 
         except:
-            self.window.aviso_2.setText("Dados não conferem")
+            self.window.aviso_2.setText(response)
             self.window.aviso_1.setText("")
-            sleep(1)
+            sleep(3)
             self.window.aviso_2.setText("Insira a temperatura")
             self.window.aviso_1.setText("Apenas Números")
             self.window.temp.close()

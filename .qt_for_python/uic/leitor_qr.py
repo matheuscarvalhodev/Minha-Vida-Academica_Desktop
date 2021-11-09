@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Matheus\Documents\GitHub\Minha-Vida-Academica_Desktop\_design\leitor_qr.ui'
+# Form implementation generated from reading ui file 'c:\Users\Matheus\Documents\GitHub\Minha-Vida-Academica_Desktop\dist\MVA\leitor_qr.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
